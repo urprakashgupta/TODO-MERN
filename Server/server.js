@@ -1,19 +1,15 @@
-import dotenv from 'dotenv';
 import express from 'express';
-import connectDB from './config/db.js'
+
+import routes from './startup/routes.js';
+import db from './startup/db.js';
 
 const app = express();
-app.use(express.json());
 
-dotenv.config();
-const PORT = process.env.PORT || 8000;
+routes(app);
+db();
 
-connectDB().then(() => {
-    app.listen(PORT, () => {
-        console.log(`Server is running on Port ${PORT}`);
+const port = process.env.PORT || 8000;
+app.listen(port, () => {
+    console.log(`Server is listening on port ${port}...`);
 
-    })
-}).catch(() => {
-    console.log('Not able to run the port please check and try again !');
-
-})
+});
